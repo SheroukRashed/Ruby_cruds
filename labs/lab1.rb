@@ -1,5 +1,5 @@
 class MyComplex
-    @@stats = 0;
+    @@stats = { "Add" => 0, "Multiply" => 0 }
 
     def initialize(real, img)
         @real  =  real
@@ -32,7 +32,7 @@ class MyComplex
     # .............................................
     def +(other)
         result = MyComplex.new(@real + other.real, @img + other.img)
-        @@stats += 1
+        @@stats["Add"] += 1
         return result;
     end
   
@@ -40,25 +40,25 @@ class MyComplex
         result = MyComplex.new((@real * other.real - @img * other.img ) , (@real * other.img  + @img * other.real) )
         # result.real = (@real * other.real -(@img * other.img))
         # result.img  = (@real * other.img  + @img * other.real)
-        @@stats += 1
+        @@stats["Multiply"] += 1
         return result;
     end
 
     # ....................................................
-    def bulk_add (complex_arr)
+    def self.bulk_add (complex_arr)
         complex_counter = MyComplex.new(0,0)
         complex_arr.each { |c| 
             complex_counter = complex_counter + c 
-            @@stats += 1
+            @@stats["Add"] += 1
         }        
         return complex_counter
     end
 
-    def bulk_mul (complex_arr)
+    def self.bulk_mul (complex_arr)
         complex_counter = MyComplex.new(1,1)
         complex_arr.each { |c| 
             complex_counter = complex_counter * c 
-            @@stats += 1
+            @@stats["Multiply"] += 1
         }        
         return complex_counter
     end
@@ -88,6 +88,8 @@ c_arr = [c3,c4,c5,c6,c7,c8,c9,c10];
 
 puts "The Sum Of Two Complex is #{(c1+c2).to_complex}\n"
 puts "The Multiply Of Two Complex is #{(c1*c2).to_complex}\n"
-puts "The Sum Of many Complex is #{c1.bulk_add(c_arr).to_complex}\n"
-puts "The Multiply Of many Complex is #{c1.bulk_mul(c_arr).to_complex}\n"
-puts "Number Of Operations is #{c1.stats}\n"
+puts "The Sum Of many Complex is #{MyComplex.bulk_add(c_arr).to_complex}\n"
+puts "The Multiply Of many Complex is #{MyComplex.bulk_mul(c_arr).to_complex}\n"
+puts "Number Of Add Operations is #{c1.stats["Add"]}\n"
+puts "Number Of Multiply Operations is #{c1.stats["Multiply"]}\n"
+
