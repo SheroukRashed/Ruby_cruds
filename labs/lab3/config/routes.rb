@@ -5,9 +5,7 @@ Rails.application.routes.draw do
     resources :comments
   end
 
-  devise_for :users, controllers: {
-        sessions: 'users/sessions'
-      }
-
+  devise_for :users
+  
   root 'welcome#index'
 end

@@ -14,5 +14,8 @@
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %><br>
 
-<%= link_to 'Edit', edit_article_path(@article) %><br>
+
+<% if can? :update, @article %>
+  <%= link_to 'Edit', edit_article_path(@article) %><br>
+<% end %>
 <%= link_to 'Back', articles_path %>
